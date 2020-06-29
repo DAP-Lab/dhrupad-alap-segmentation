@@ -14,8 +14,8 @@ eval_tol = int(eval_tol/frame_len)		#in frames
 target_smear_width = int(target_smear_width/frame_len)	#in frames
 
 #song data paths
-songdata_filepath='../../annotations/GT_boundaries_sections.csv'
-songdata_test_filepath='../../annotations/GT_boundaries_sections_test.csv'
+songdata_filepath='../../annotations/train_dataset.csv'
+songdata_test_filepath='../../annotations/test_dataset.csv'
 
 #input paths
 features_matlab_path='/media/Sharedata/rohit/drupad-alap-segmentation/features/features_from_matlab/train_texwin%d'%texwin_len
