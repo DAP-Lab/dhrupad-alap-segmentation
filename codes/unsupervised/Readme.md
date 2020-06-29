@@ -1,3 +1,3 @@
-## Unsupervised boundary detection
+## Unsupervised method
 
 To be updated.
