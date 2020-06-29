@@ -18,8 +18,8 @@ context_len=int(context_len/hop_len_sub)
 targ_smear_width=int(targ_smear_width/hop_len_sub)
 
 #Directories
-songdata_filepath='../../annotations/GT_boundaries_sections.csv'
-testsongdata_filepath='../../annotations/GT_boundaries_sections_test.csv'
+songdata_filepath='../../annotations/train_dataset.csv'
+testsongdata_filepath='../../annotations/test_dataset.csv'
 audio_dir='/media/Sharedata/rohit/DrupadAlapaudios'
 
 features_out_path='../../features/feats_labels_CNN/texwin_%d_context_%d/'%(texwin_len, context_len)
