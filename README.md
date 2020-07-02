@@ -15,6 +15,8 @@ The [codes](./codes) folder contains the implementations of the feature extracti
 More details on the annotation format and running the codes can be found in the respective folders.
 
 ### Audio dataset
-The sources for all the audios used in the work are listed in the file [Dataset_sources.pdf](./Dataset_sources.pdf). Some are available on YouTube, while most others are from the CompMusic Dunya collection and can be obtained by creating an account and requesting access on the Dunya website.
+The sources for all the audios used in the work are listed in the file [Dataset_sources.pdf](./Dataset_sources.pdf). Some are available on YouTube, while others are from the CompMusic Dunya[^1] collection and can be obtained through the Dunya API[^2] using the provided MusicBrainz IDs[^3]. </br>
 
-
+[^1]: [https://dunya.compmusic.upf.edu/](https://dunya.compmusic.upf.edu/) </br>
+[^2]: [https://dunya.compmusic.upf.edu/developers/](https://dunya.compmusic.upf.edu/developers/) </br>
+[^3]: [https://musicbrainz.org/doc/MusicBrainz_Identifier](https://musicbrainz.org/doc/MusicBrainz_Identifier) </br>
