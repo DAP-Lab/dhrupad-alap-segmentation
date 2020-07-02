@@ -1,21 +1,28 @@
-S.No.,Concert,Raga,Link to audio
-1,GB_Ahir,Ahir Bhairav,https://musicbrainz.org/release/9cf4b496-c59f-46f9-8680-7f3515d0116c
-2,GB_Bhg,Bihag,https://musicbrainz.org/release/816baad2-e87c-49e5-9f33-3c9045ff44d9
-3,GB_Bhim,Bhimpalasi,https://musicbrainz.org/release/439eeffc-1ec7-459a-95ab-10d309b762bf
-4,GB_Bhrv,Bhairav,https://musicbrainz.org/release/2122c8b8-308f-4ed9-90e4-3f5064ea3f66
-5,GB_BKT,Bilaskhani Todi,https://musicbrainz.org/release/99be48b9-9d75-4977-84c9-96aeeacbfc96
-6,GB_KRA,Komal Rishabh Asavari,https://musicbrainz.org/release/8b2292b9-98a4-4a0d-b620-5bc75b685226
-7,GB_Mar,Marwa,https://musicbrainz.org/release-group/5918aeef-9aa0-45bc-95b3-042008833c0a
-8,GB_MMal,Miya Malhar,https://musicbrainz.org/release/15a3c298-773a-48e1-b66d-87f95bf7442d
-9,GB_Yam,Yaman,https://musicbrainz.org/release-group/cc6bedaa-5929-36da-a8f7-9f5ec108eacc
-10,RS_Bind,Bindeshwari,Personal collection
-11,RS_Shr,Shree,https://www.youtube.com/watch?v=h-HNxh27EJo
-12,Sul_Man_Yam,Yaman,https://www.youtube.com/watch?v=g4DghfniknE
-13,UB_Ahir,Ahir Bhairav,https://musicbrainz.org/release/a3033d7c-fa63-4870-992b-a33a9f4e2e3b
-14,UB_Bhg,Bihag,https://www.youtube.com/watch?v=I3oiwuKoFc0
-15,UB_Bhrv,Bhairav,https://www.youtube.com/watch?v=jG21qUpkfUI
-16,UB_Jog,Jog,https://gaana.com/album/anuraag-stirrings-uday-bhawalkar
-17,UB_Malk,Malkauns,https://www.youtube.com/watch?v=kGzh-_H-FDY&list=RDkGzh-_H-FDY&index=1
-18,UB_Maru,Maru,https://www.youtube.com/watch?v=AiLEB6e4zvY
-19,UB_Shr,Shree,https://www.youtube.com/watch?v=NCmvttDzkzk
-20,WD_Bhg,Bihag,https://www.youtube.com/watch?v=TODtRiJbX04
+Sr.No.	Concert	Raga	Link to audio
+1	GB_Ahir	Ahir Bhairav	https://musicbrainz.org/release/9cf4b496-c59f-46f9-8680-7f3515d0116c
+2	GB_Bhg	Bihag	https://musicbrainz.org/release/816baad2-e87c-49e5-9f33-3c9045ff44d9
+3	GB_Bhim	Bhimpalasi	https://musicbrainz.org/release/439eeffc-1ec7-459a-95ab-10d309b762bf
+4	GB_Bhrv	Bhairav	https://musicbrainz.org/release/2122c8b8-308f-4ed9-90e4-3f5064ea3f66
+5	GB_BKT	Bilaskhani Todi	https://musicbrainz.org/release/99be48b9-9d75-4977-84c9-96aeeacbfc96
+6	GB_KRA	Komal Rishabh Asavari	https://musicbrainz.org/release/8b2292b9-98a4-4a0d-b620-5bc75b685226
+7	GB_Mar	Marwa	https://musicbrainz.org/release-group/5918aeef-9aa0-45bc-95b3-042008833c0a
+8	GB_MMal	Miya Malhar	https://musicbrainz.org/release/15a3c298-773a-48e1-b66d-87f95bf7442d
+9	GB_Yam	Yaman	https://musicbrainz.org/release-group/cc6bedaa-5929-36da-a8f7-9f5ec108eacc
+10	RS_Bind	Bindeshwari	Personal collection
+11	RS_Shr	Shree	https://www.youtube.com/watch?v=h-HNxh27EJo
+12	Sul_Man_Yam	Yaman	https://www.youtube.com/watch?v=g4DghfniknE
+13	UB_Ahir	Ahir Bhairav	https://musicbrainz.org/release/a3033d7c-fa63-4870-992b-a33a9f4e2e3b
+14	UB_Bhg	Bihag	https://www.youtube.com/watch?v=I3oiwuKoFc0
+15	UB_Bhrv	Bhairav	https://www.youtube.com/watch?v=jG21qUpkfUI
+16	UB_Jog	Jog	https://gaana.com/album/anuraag-stirrings-uday-bhawalkar
+17	UB_Malk	Malkauns	https://www.youtube.com/watch?v=kGzh-_H-FDY&list=RDkGzh-_H-FDY&index=1
+18	UB_Maru	Maru	https://www.youtube.com/watch?v=AiLEB6e4zvY
+19	UB_Shr	Shree	https://www.youtube.com/watch?v=NCmvttDzkzk
+20	WD_Bhg	Bihag	https://www.youtube.com/watch?v=TODtRiJbX04
+			
+Artist Legend			
+GB - Gundecha Brothers			
+UB - Uday Bhawalkar			
+RS - Ritwik Sanyal			
+Sul_Man - Sulabha & Manoj Saraf			
+WD - Wasifuddin Dagar			
