@@ -1,6 +1,6 @@
-function [song_title, gt] = read_song(song_ind)
+function [song_title, gt] = read_song(songdata_path,song_ind)
 
-fname = '../../annotations/train_data.csv';
+fname = songdata_path;
 songdata = readtable(fname);
 
 song_title = songdata.ConcertName(song_ind);

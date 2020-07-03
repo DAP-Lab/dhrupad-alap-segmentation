@@ -9,7 +9,7 @@ audio_offset_list = [0];
 out_path=strcat('../../features/features_from_matlab/', 'texwin_', num2str(tex_win), '/');
 in_dir=[];
 
-%% parse input arguments
+%% parse input parameters
 p = inputParser;
 addRequired(p,'in_path');
 addParameter(p,'in_dir',in_dir);
@@ -84,9 +84,9 @@ for song_ind = 1:n_songs
         end
 
         if length(audio_offset_list)==1
-            save_filename=fullfile(out_path, strrep(song_title,'.wav',''));
+            save_filename=strcat(out_path, strrep(song_title,'.wav',''));
         else
-            save_filename=fullfile(out_path, strcat(strrep(song_title,'.wav',''), '_', num2str(audio_offset)));
+            save_filename=strcat(out_path, strrep(song_title,'.wav',''), '_', num2str(audio_offset));
         end
 
         % load audio
@@ -112,17 +112,17 @@ for song_ind = 1:n_songs
         %% Rhythm features - Tempo, salience
 
         % ACF computation
-        rhy_winsize = 20;                                %texture window size in sec
-        rhy_stepsize = tex_hop;                          %texture hop size in sec
-        %rhy_win_len = round(rhy_win.*featureRate);      %in frames
-        %rhy_stepsize=rhy_stepsize*featureRate;          %in frames
+        rhy_win = 20;                                   %texture window size in sec
+        rhy_stepsize = tex_hop;                         %texture hop size in sec
+        rhy_win_len = round(rhy_win.*featureRate);      %in frames
+        rhy_stepsize=rhy_stepsize*featureRate;          %in frames
 
         maxLag = 60/20;                                 %in sec, corresponding to 20 bpm
         minLag = 60/600;                                %in sec, corresponding to 600 bpm
         maxL=ceil(maxLag.*featureRate);                 %in frames
-        %minL=ceil(minLag.*featureRate);                %in frames
+        minL=ceil(minLag.*featureRate);                 %in frames
 
-        [acf_represent,fft_represent,~] = acf_dft_represent2(onsets,maxL,spect_hop_sec,rhy_winsize,rhy_stepsize);
+        [acf_represent,fft_represent,~] = acf_dft_represent2(onsets,maxL,tex_hop);
 
         % Tempo, salience
         [~, tempo, sal, ~] = tempo_sal_apr2015(acf_represent,fft_represent);
@@ -171,7 +171,7 @@ for song_ind = 1:n_songs
         A.ste_sc_diff=norm_feature(A.ste_sc_diff,'c');
 
         %% Timbre features - MFCCs
-        A.avg_MFCC=mfcc_calculate(x,fs,spect_win_sec,spect_hop_sec,tex_win,tex_hop);
+        A.avg_MFCC=mfcc_calculate(x,fs,tex_win);
 
         %% Save
         len_features=min([size(A.tempo_sal,1),size(A.ste_sc_diff,1),size(A.avg_MFCC,1)]);

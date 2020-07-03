@@ -1,21 +1,7 @@
-function [acf_represent,fft_represent,lags]=acf_dft_represent2(onset_string,maxL,texture_hopsize)
-% Texture frame analysis
-    hop=0.010;
-    T_hop=texture_hopsize;      % Texture hop in s
-    T_frm=20;      % Texture frame in s
+function [acf_represent,fft_represent,lags]=acf_dft_represent2(onset_string,maxL,hop,tex_win,tex_hop)
+    Ts_hop=tex_hop/hop;   % Number of frames in a Texture hop
+    Ts_frm=tex_win/hop;   % Number of frames in a Texture frame
     
-    % Find the texture sampling frequency
-    
-    T_fs=(1/hop);     % in Hz
-    
-    Ts_hop=T_hop/hop;   % Number of samples in a Texture hop
-    Ts_frm=T_frm/hop;   % Number of samples in a Texture frame
-    
-%     N_rhy_frm = fix((length(onset_string)-Ts_frm+Ts_hop)/Ts_hop);
-% 
-%       T_rhy= (1*Ts_hop:N_rhy_frm*Ts_hop)/featureRate;
-   
-      
     % Nearest power of 2 to be taken as FFT size
     TFFT_size=2^(ceil(log2(Ts_frm))+1);
     
