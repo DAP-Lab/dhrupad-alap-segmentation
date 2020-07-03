@@ -6,7 +6,7 @@ extract_features('path/to/file/filename.wav')
 ```
 </br>
 
-Features get saved in a folder called ```features_from_matlab``` in a ```features``` folder (created by the script) above the codes directory. The saved structure contains the following fields: </br>
+Features get saved in a folder called ```features_from_matlab``` in a ```features``` folder (created by the script) above the codes directory. The saved structure variable contains the following fields: </br>
 *  ```tempo_sal``` - Tempo and salience
 *  ```rhythm_features``` - Posteriors of tempo and salience
 *  ```ste_sc_diff``` - Biphasic filtered short-time energy and short-time spectral centroid
@@ -16,11 +16,11 @@ All features are calculated at a short-time frame level and then averaged using 
 
 ### Additional details
 Full syntax - ```extract_features(in_path,Name,Value)``` </br>
-```in_path``` is either the name of an audio file or a text file containing a column-list of audio filenames. It is a mandatory argument. </br>
+```in_path``` is either the name of an audio file or a text file containing a column-list of audio filenames. It is a mandatory argument. It can also be a csv file in a format similar to the annotation files. </br>
 Additional optional arguments can be specified using Name, Value pairs, and include the following:
 
-* ```in_dir``` - path to the audio file(s) if ```in_path``` is only the name of the audio file without the full path. Useful if ```in_path``` is a text file with only the names of audios.
+* ```in_dir``` - path to the audio file(s) if ```in_path``` is only the name of the audio file without the full path; useful if ```in_path``` is a text file with only the names of audios
 * ```tex_win``` - averaging window length in seconds (defauls to 3)
 * ```tex_hop``` - hop in seconds between averaging windows (defaults to 1) 
 * ```offsets``` - list of values in seconds to shift the audio in time by, as a way of performing test-time augmentation (offers a robust way of measuring test performance)
-* ```out_path``` - path to save features (defaults to ```../../features/features_from_matlab/```, relative to the current directory)
+* ```out_path``` - path to save features (defaults to ```../../features/features_from_matlab/texwin_<tex_win value>/```, relative to the current directory)
