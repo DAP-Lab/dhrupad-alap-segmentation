@@ -18,6 +18,7 @@ To obtain boundary predictions for an audio file using the unsupervised or RF me
 predict_boundaries.py path/to/features/filename.mat
 ```
 </br>
+
 To use the trained CNN model, run (from within the cnn directory)
 ```
 predict_boundaries.py path/to/audio/filename.wav
