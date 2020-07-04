@@ -7,10 +7,10 @@ extract_features('path/to/file/filename.wav')
 </br>
 
 Features get saved in a folder called ```features_from_matlab``` in a ```features``` folder (created by the script) above the codes directory. The saved structure variable contains the following fields: </br>
-*  ```tempo_sal``` - Tempo and salience
-*  ```rhythm_features``` - Posteriors of tempo and salience
-*  ```ste_sc_diff``` - Biphasic filtered short-time energy and short-time spectral centroid
-*  ```avg_MFCC``` - Mel-Frequency Cepstral Coefficients
+*  *tempo_sal* - Tempo and salience
+*  *rhythm_features* - Posteriors of tempo and salience
+*  *ste_sc_diff* - Biphasic filtered short-time energy and short-time spectral centroid
+*  *avg_MFCC* - Mel-Frequency Cepstral Coefficients
 
 All features are calculated at a short-time frame level and then averaged using longer overlapping windows of size 3s with a hop of 1s. These are the default values as reported in the paper, but can be modified using commandline arguments (see below). Every feature is stored as a column vector with each column corresponding to a 1s frame. The ```ste_sc_diff``` and ```avg_MFCC``` together constitute the **timbre** features. Refer to Figure 9 of the paper for a detailed block diagram of the feature extraction process.</br>
 
