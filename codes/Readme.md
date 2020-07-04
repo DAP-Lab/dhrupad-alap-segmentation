@@ -19,7 +19,7 @@ predict_boundaries.py path/to/features/filename.mat
 ```
 </br>
 
-To use the trained CNN model, run (from within the cnn directory)
+To obtain boundaries using the trained CNN model, run (from within the cnn directory)
 ```
 predict_boundaries.py path/to/audio/filename.wav
 ```
