@@ -83,10 +83,10 @@ for song_ind = 1:n_songs
                mkdir(out_path)
         end
 
-        if length(audio_offset_list)==1
-            save_filename=fullfile(out_path, strrep(song_title,'.wav',''));
+        if audio_offset_list==[0]
+            save_filename=fullfile(out_path, strrep(song_title,'.wav','.mat'));
         else
-            save_filename=fullfile(out_path, strcat(strrep(song_title,'.wav',''), '_', num2str(audio_offset)));
+            save_filename=fullfile(out_path, strcat(strrep(song_title,'.wav',''), '_', num2str(audio_offset),'.mat'));
         end
 
         % load audio

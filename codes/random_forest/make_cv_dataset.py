@@ -8,7 +8,7 @@ import pandas as pd
 import utils
 from params import *
 
-def save_feats_labels(songdata):
+def save_feats_labels(songdata,audio_offsets=[],pitch_shifts=[]):
 	""" Generate frame-level labels from GT boundary annotations (binary: 1 for boundary, 0 for non-boundary) and save the features and labels together
 	
 	Parameters:
@@ -32,8 +32,9 @@ def save_feats_labels(songdata):
 			boundLabels[boundary//frame_len - target_smear_width//2:boundary//frame_len + target_smear_width//2]=smear_win
 		data_out['labels']=np.atleast_2d(boundLabels).T
 
-		for pitch_shift in [0, 1, 2, 3, 4]:
-			for audio_offset in [0.1, 0.2, 0.3, 0.4, 0.5]:
+		for pitch_shift in pitch_shifts:
+			for audio_offset in audio_offsets:
+				if (pitch_shift==0) & (audio_offset==0): continue
 				data_out=utils.get_offset_features(features_matlab_path, songdata['Concert name'][songNo], data_out, target_smear_width, frame_len, context_len, audio_offset, pitch_shift, boundaries)
 
 		np.save(os.path.join(features_RF_path,songdata['Concert name'][songNo]+'.npy'),data_out)
@@ -41,4 +42,4 @@ def save_feats_labels(songdata):
 
 if __name__=='__main__':
 	songdata=pd.read_csv(songdata_filepath)
-	save_feats_labels(songdata)
+	save_feats_labels(songdata,audio_offset_list,pitch_shift_list)

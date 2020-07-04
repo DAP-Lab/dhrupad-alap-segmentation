@@ -25,13 +25,19 @@ def cross_val(fold):
 	#Validate
 	scores=[]
 	for song_num in song_inds_val:
-		val_set = utils.get_val_set(context_len, target_smear_width, feat_subset, features_matlab_path, song_num, songdata)
-		out_probs=clf.predict_proba(val_set['features'])[:,1]
-		
-		for predict_thresh in [0.5, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85]:
-			out_labels=(out_probs > predict_thresh).astype(int)
-			plot_name='fold%d_'%fold+songdata['Concert name'][song_num]+'_thresh_'+str(predict_thresh)
-			scores=np.append(scores, utils.eval_output(out_labels, out_probs, val_set['labels'][:,0], eval_tol, plot_savepath, plot_name))
+		for offset in audio_offset_list:
+			scores_offset=[]
+			val_set = utils.get_val_set(context_len, feat_subset, features_matlab_path, song_num, songdata, offset=offset)
+			out_probs=clf.predict_proba(val_set['features'])[:,1]
+			
+			for predict_thresh in predict_thresh_list:
+				out_labels=(out_probs > predict_thresh).astype(int)
+				plot_name='fold%d_'%fold+songdata['Concert name'][song_num]+'_thresh_'+str(predict_thresh)
+				scores_offset=np.append(scores_offset, utils.eval_output(out_labels, out_probs, val_set['labels'][:,0], eval_tol, plot_savepath, plot_name))
+			if len(scores)==0:
+				scores=scores_offset
+			else:
+				scores+=scores_offset
 
 	return scores
 
@@ -103,9 +109,9 @@ if __name__=='__main__':
 			except: boundaries=[]
 			
 			#loop over offset versions of test audio (test-time augmented)
-			data_filepath=os.path.join(testfeatures_matlab_path,songdata_test['Concert name'][song_num])
-			for offset in [0.1,0.2,0.3,0.4,0.5]:
-				val_set=utils.get_val_set(context_len, target_smear_width, feat_subset, features_matlab_path, song_num=None, data_filepath=data_filepath, boundaries=boundaries, offset_list=[offset])
+			data_filepath=os.path.join(features_matlab_path,songdata_test['Concert name'][song_num])
+			for offset in audio_offset_list:
+				val_set=utils.get_val_set(context_len, feat_subset, features_matlab_path, song_num=None, data_filepath=data_filepath, boundaries=boundaries, offset=offset)
 				out_probs=clf.predict_proba(val_set['features'])[:,1]
 				out_labels=(out_probs > 0.5).astype(int)
 
