@@ -7,7 +7,7 @@
 For the RF and CNN methods, models trained on the 20-concert dataset are also provided, and can be used to obtain predictions on any test audio.
 
 ### Description
-To obtain boundary predictions for an audio file:
+To obtain boundary predictions for an audio file using the unsupervised or RF methods:
 1. First extract all the features using the ```extract_features``` MATLAB function (more details inside [feature_extraction](./feature_extraction))
 2. To use the unsupervised method, run ...
 ```
@@ -17,7 +17,8 @@ To obtain boundary predictions for an audio file:
 ```
 predict_boundaries.py path/to/features/filename.mat
 ```
-4. To use the trained CNN model, run (from within the cnn directory)
+
+To use the trained CNN model, run (from within the cnn directory)
 ```
 predict_boundaries.py path/to/audio/filename.wav
 ```
