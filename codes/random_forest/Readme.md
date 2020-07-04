@@ -1,5 +1,6 @@
 ## Random Forest classifier
 Using the implementation provided by [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html#) </br>
+Requirements: scipy, numpy, matplotlib, pandas, scikit-learn
 
 ### Usage
 To obtain boundaries for a test audio (whose features have been extracted), run
