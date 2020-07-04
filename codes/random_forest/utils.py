@@ -19,16 +19,13 @@ def make_feature_subsets(data, context_len):
 	dict: dictionary of the 4 feature subsets
 	"""
 	data_subsets={}
-	#data_subsets['max_P']=np.atleast_2d(np.max(data['P'],1)).T
 	data_subsets['max_P']=np.atleast_2d(np.max(data['rhythm_features'],1)).T
 	data_subsets['rhythm']=data_subsets['max_P']
 	data_subsets['rhythm']=get_context_features(data_subsets['rhythm'], context_len)
 	data_subsets['mfcc']=data['avg_MFCC']
 	data_subsets['mfcc']=get_context_features(data_subsets['mfcc'], context_len)
-	#data_subsets['timbre']=np.hstack((data['scaled_features'][:,3:5], data['avg_MFCC']))
 	data_subsets['timbre']=np.hstack((data['ste_sc_diff'], data['avg_MFCC']))
 	data_subsets['timbre']=get_context_features(data_subsets['timbre'], context_len)
-	#data_subsets['all']=np.hstack((data_subsets['max_P'],data['scaled_features'][:,3:5], data['avg_MFCC']))
 	data_subsets['all']=np.hstack((data_subsets['max_P'],data['ste_sc_diff'], data['avg_MFCC']))
 	data_subsets['all']=get_context_features(data_subsets['all'], context_len)		
 	return	data_subsets
