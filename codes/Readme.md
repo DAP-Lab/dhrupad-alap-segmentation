@@ -1,8 +1,8 @@
 ### Contents
-[feature_extraction](feature_extraction) - Codes (MATLAB) to extract features for the unsupervised and random forest methods </br>
-[unsupervised](unsupervised) - Codes (MATLAB) for unsupervised SDM-novelty based boundary detection </br>
-[random_forest](random_forest) - Codes (Python) for the random forest implementation </br>
-[cnn](cnn) - Codes (Python) for the CNN implementation. </br>
+[feature_extraction](feature_extraction) - codes (MATLAB) to extract features for the unsupervised and random forest methods </br>
+[unsupervised](unsupervised) - codes (MATLAB) for unsupervised SDM-novelty based boundary detection </br>
+[random_forest](random_forest) - codes (Python) for the random forest implementation </br>
+[cnn](cnn) - codes (Python) for the CNN implementation. </br>
 
 For the RF and CNN methods, models trained on the 20-concert dataset are also provided, and can be used to obtain predictions on any test audio.
 
