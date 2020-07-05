@@ -15,11 +15,11 @@ To obtain boundary predictions for an audio file using the unsupervised or RF me
 ```
 3. To use the trained RF model, run (from within the random_forest directory)
 ```
-predict_boundaries.py path/to/features/filename.mat
+python predict_boundaries.py path/to/features/filename.mat
 ```
 </br>
 
 To obtain boundaries using the trained CNN model, run (from within the cnn directory)
 ```
-predict_boundaries.py path/to/audio/filename.wav
+python predict_boundaries.py path/to/audio/filename.wav
 ```
