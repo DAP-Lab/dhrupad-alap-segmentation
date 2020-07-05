@@ -1,3 +1,6 @@
-## Unsupervised method
+## Unsupervised method (MATLAB)
 
-To be updated.
+To predict the boundaries in a test audio, first extract its features and then run
+```
+predict_boundaries(path/to/features/filename.mat)
+```
