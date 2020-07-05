@@ -8,8 +8,11 @@ import matplotlib.pyplot as plt
 from scipy.signal import windows
 from sklearn.utils import shuffle
 import keras
+import tensorflow as tf
 import utils
 from params import *
+
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 np.random.seed(0)
 train_flag=int(sys.argv[1])
@@ -67,7 +70,7 @@ def cross_val(fold):
 		for song_id in song_ids_val:
 			boundaries=songdata['Boundaries'][song_id].split(',')
 			filepath=os.path.join(audio_dir, songdata['Concert name'][song_id]+'.wav')
-			data_val=utils.get_test_data(audio_filepath=filepath, gt_boundaries=boundaries, audio_offset=[0])
+			data_val=utils.get_test_data(audio_filepath=filepath, samp_rate=sr, gt_boundaries=boundaries, offset=0)
 			data_val['labels']=keras.utils.to_categorical(data_val['labels'], num_classes=2)
 
 			eval_loss_song,_ = clf.evaluate(data_val['features'],data_val['labels'],verbose=0)
@@ -85,15 +88,26 @@ def cross_val(fold):
 
 	scores=[]
 	for song_id in song_ids_val:
-		boundaries=songdata['Boundaries'][song_id].split(',')
-		filepath=os.path.join(audio_dir, songdata['Concert name'][song_id]+'.wav')
-		data_val = utils.get_test_data(audio_filepath=filepath, gt_boundaries=boundaries, audio_offset=[0.,0.1,0.2,0.3,0.4])
-		out_probs = clf.predict(data_val['features'])[:,1]
+		scores_song=[]
+		for offset in audio_offset_list:
+			scores_offset=[]
+			boundaries=songdata['Boundaries'][song_id].split(',')
+			filepath=os.path.join(audio_dir, songdata['Concert name'][song_id]+'.wav')
+			data_val = utils.get_test_data(audio_filepath=filepath, samp_rate=sr, gt_boundaries=boundaries, offset=offset)
+			out_probs = clf.predict(data_val['features'])[:,1]
 
-		for predict_thresh in [0.5, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85]:
-			out_labels = (out_probs > predict_thresh).astype(int)
-			plot_name = 'fold%d_'%fold + songdata['Concert name'][song_id] + '_thresh_' + str(predict_thresh)
-			scores = np.append(scores, utils.eval_output(out_labels, out_probs, data_val['labels'], eval_tol, context_len, plot_savepath, plot_name))
+			for predict_thresh in [0.5, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85]:
+				out_labels = (out_probs > predict_thresh).astype(int)
+				plot_name = 'fold%d_'%fold + songdata['Concert name'][song_id] + '_thresh_' + str(predict_thresh)
+				scores_offset = np.append(scores_offset, utils.eval_output(out_labels, out_probs, data_val['labels'], eval_tol, context_len, plot_savepath, plot_name))
+
+			if len(scores_song)==0: scores_song=scores_offset
+			else: scores_song+=scores_offset
+
+		if len(scores)==0:
+			scores=np.atleast_2d(scores_song)
+		else:
+			scores=np.vstack((scores,np.atleast_2d(scores_song)))
 	return scores
 
 if __name__=='__main__':
@@ -122,7 +136,7 @@ if __name__=='__main__':
 	scores=[]
 	#train & validate model, and report Precision, Recall & F-score
 	if train_flag:
-		for i_fold in range(n_folds):
+		for i_fold in [19]: #range(n_folds):
 			if len(scores)==0:
 				scores=np.atleast_2d(cross_val(i_fold))
 			else:
@@ -167,8 +181,8 @@ if __name__=='__main__':
 			try:	boundaries=songdata_test['Boundaries'][song_id].split(',')
 			except:	boundaries=[]
 
-			for offset in [0.1,0.2,0.3,0.4,0.5]:
-				data_test=utils.get_test_data(audio_filepath=filepath, gt_boundaries=boundaries, audio_offset=[offset])
+			for offset in audio_offset_list:
+				data_test=utils.get_test_data(audio_filepath=filepath, samp_rate=sr, gt_boundaries=boundaries, audio_offset=[offset])
 				out_probs=clf.predict(data_test['features'])[:,1]
 				out_labels=(out_probs > 0.6).astype(int)
 					

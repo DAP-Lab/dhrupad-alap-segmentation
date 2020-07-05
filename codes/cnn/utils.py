@@ -48,25 +48,22 @@ def get_frame_level_melgrams(audio):
 	
 	return mel_specgram_frames
 
-def get_test_data(audio_filepath='', gt_boundaries=[], audio_offset=[0]):
-	smear_win=windows.get_window('boxcar', targ_smear_width)
-
+def get_test_data(audio_filepath='', samp_rate=sr, gt_boundaries=[], offset=0):
 	data_test={'features':np.array([]), 'labels':np.array([])}
-	for offset in audio_offset:
-		audio, sr = librosa.load(audio_filepath, sr=16000)
-		audio=audio[int(sr*offset):]
-		
-		features = get_frame_level_melgrams(audio)
-		audio=[]
 
-		labels=np.zeros(features.shape[0])
-		for boundary in gt_boundaries:
-			boundary=int(boundary.strip()) - offset
-			labels[int(boundary/hop_len_sub)-targ_smear_width//2:int(boundary/hop_len_sub)+targ_smear_width//2]=smear_win
-		
-		if len(data_test['features'])==0: data_test['features'] = features
-		else: data_test['features']=np.append(data_test['features'],features,axis=0)
-		data_test['labels']=np.append(data_test['labels'], labels)
+	audio, sr = librosa.load(audio_filepath, sr=samp_rate)
+	audio=audio[int(sr*offset):]
+	
+	features = get_frame_level_melgrams(audio)
+	audio=[]
+
+	labels=np.zeros(features.shape[0])
+	for boundary in gt_boundaries:
+		boundary=int(boundary.strip()) - offset
+		labels[int(boundary/hop_len_sub)]=1
+	
+	data_test['features'] = features
+	data_test['labels']=labels
 
 	return data_test
 
@@ -121,17 +118,18 @@ def merge_onsets(onsets,strengths,mergeDur):
 		else: ind+=1
 	return onsets
 
+
+def smooth_predictions(out_labels, out_probs, merge_dur):
+	peaksOut=get_peaks(out_labels, strengths=out_probs)
+	peaksOut=merge_onsets(peaksOut,out_probs,merge_dur)
+	return peaksOut
+
+
 def eval_output(out_labels, out_probs, ground_truth, eval_tol, context_len, plot_savepath, plot_name, plot=True):
-	diffGT=np.abs(ground_truth-np.append(0,ground_truth[:-1]))
-	positives=np.where(diffGT==1.0)[0]
-	ground_truth=np.zeros(len(ground_truth))
-	for i_pos in range(0,len(positives),2):
-		ground_truth[positives[i_pos]+ int((positives[i_pos+1]-positives[i_pos])/2)]=1
 	peaksGt=ground_truth
 	peakLocsGt=np.where(ground_truth==1.0)[0]
 
-	peaksOut=get_peaks(out_labels, strengths=out_probs)
-	peaksOut=merge_onsets(peaksOut,out_probs,eval_tol)
+	peaksOut=smooth_predictions(out_labels,out_probs,eval_tol)
 	
 	nPositives=len(np.where(peaksGt==1.0)[0])
 	nTP=0; nFP=0;

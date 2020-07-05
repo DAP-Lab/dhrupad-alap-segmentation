@@ -10,9 +10,7 @@ from params import *
 np.random.seed(0)
 	
 ##Save frame-wise context_len long chunks of the mel-spectrogram and corresponding binary targets as training examples
-def gen_dataset(features_out_path, texwin_len, context_len, targ_smear_width):
-	audio_offset_list=[0,0.1,0.2,0.3,0.4]
-	pitch_shift_list=[0] #np.arange(0,5)
+def gen_dataset(features_out_path, texwin_len, context_len, targ_smear_width, audio_offsets=[0], pitch_shifts=[0]):
 	
 	smear_win=windows.get_window('boxcar',targ_smear_width)
 
@@ -24,14 +22,14 @@ def gen_dataset(features_out_path, texwin_len, context_len, targ_smear_width):
 			dataset_ids[str(i_song)]=[]			
 			dataset_labels[str(i_song)]={}
 			boundaries=songdata['Boundaries'][i_song].split(',')
-			
-			for i_pitch in pitch_shift_list:
+
+			for i_pitch in pitch_shifts:
 				if i_pitch==0:
 					filepath=os.path.join(audio_dir, songdata['Concert name'][i_song] + '.wav')
 				else:
 					filepath=os.path.join(audio_dir, 'pitch_shifted', songdata['Concert name'][i_song] + '_' + str(i_pitch) + '.wav')
 
-				for offset in audio_offset_list:
+				for offset in audio_offsets:
 					audio, sr = librosa.load(filepath, sr=16000)
 					audio=audio[int(sr*offset):]
 					
@@ -66,6 +64,6 @@ if __name__=='__main__':
 
 	songdata=pd.read_csv(songdata_filepath)
 
-	dataset_ids, labels = gen_dataset(features_out_path, texwin_len, context_len, targ_smear_width)
+	dataset_ids, labels = gen_dataset(features_out_path, texwin_len, context_len, targ_smear_width,audio_offset_list,pitch_shift_list)
 	np.save(os.path.join(features_out_path, 'dataset_ids'), dataset_ids)
 	np.save(os.path.join(features_out_path, 'labels'), labels)
