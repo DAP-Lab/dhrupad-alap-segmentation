@@ -3,21 +3,21 @@ Using the implementation provided by [Keras](https://keras.io/) </br>
 Requirements: scipy, numpy, matplotlib, pandas, scikit-learn, keras, tensorflow
 
 ### Usage
-1. To obtain boundaries for a test audio, run
+* To obtain boundaries for a test audio, run
 ```
 python predict_boundaries.py path/to/audio/filename.wav
 ```
 The predicted boundaries are saved to a log file at: ```./logs/CNN_test_log.txt```. The provided model is trained on all the songs and is located at: ```./saved_models/3_50``` . The folder name indicates that the model is trained on mel-spectrograms averaged using a *3s* window with *+-50* context frames.
-The command line argument can also be a txt or csv file either in the format of the annotation files, or simply containing a column-list of filenames - boundaries will be predicted and saved for all the files. The filenames need not include the entire path, in which case, the path is set to the default value specified by the ```audio_dir``` variable in the ```params.py``` file (see below).
+The command line argument can also be a txt or csv file either in the format of the annotation files, or simply containing a column-list of filenames - boundaries will be predicted and saved for all the files. The filenames need not include the entire path, in which case, the path is set to the default value specified by the ```audio_dir``` variable in the ```params.py``` file (see below). </br> </br>
 
-2. To perform training </br>
+* To perform training </br>
 First run
 ```
 python make_cv_dataset.py
 ```
 This script generates and saves frame-wise mel-spectrograms containing the context frames and the corresponding labels for all the 20 songs. By default, no data augmentation is performed. To perform augmentation using pitch-shifts and audio-offsets, first ensure that pitch-shifted audios are available in a folder called ```pitch_shifted``` within the ```audio_dir```. Then set the ```audio_offset_list``` and ```pitch_shift_list``` variables in the ```params.py``` file to the set of offset/shift values. </br>
 
-Then run
+Then, to perform the cross-validation, run
 ```
 python run_cv.py
 ```
