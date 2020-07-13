@@ -11,7 +11,7 @@ The predicted boundaries are saved to a log file at: ```./logs/CNN_test_log.txt`
 The command line argument can also be a txt or csv file either in the format of the annotation files, or simply containing a column-list of filenames - boundaries will be predicted and saved for all the files. The filenames need not include the entire path, in which case, the path is set to the default value specified by the ```audio_dir``` variable in the ```params.py``` file (see below). </br> </br>
 
 * To perform training </br>
-First run
+First, create and save the features and labels by running
 ```
 python make_cv_dataset.py
 ```
