@@ -3,19 +3,21 @@ Using the implementation provided by [scikit-learn](https://scikit-learn.org/sta
 Requirements: scipy, numpy, matplotlib, pandas, scikit-learn
 
 ### Usage
-To obtain boundaries for a test audio (whose features have been extracted), run
+* To obtain boundaries for a test audio (whose features have been extracted), run
 ```
 python predict_boundaries.py path/to/features/filename.mat
 ```
 The predicted boundaries are saved to a log file at: ```./logs/RF_test_log.txt```. The provided model is trained on all the songs and is located at: ```./saved_models/all_3_20_100``` . The folder name indicates that the model is trained using *all* features, averaged using a *3s* window, using *20* trees, and *+-50* context frames.
 The command line argument can also be a txt or csv file either in the format of the annotation files, or simply containing a column-list of filenames - boundaries will be predicted and saved for all the files. The filenames need not include the entire path, in which case, the path is set to the value specified in the ```params.py``` file (see below).
+</br>
 
-To perform training, first ensure that features have been extracted for all the 20 songs. Then run
+* To perform training, first ensure that features have been extracted for all the 20 songs. Then run
 ```
 python make_cv_dataset.py
 ```
-This script generates frame-level labels from ground truth boundaries and saves the features and labels in a format suitable for RF training. By default, target smearing is applied, but no data augmentation is performed. To perform augmentation using pitch-shifts and audio-offsets, first ensure that features have been extracted for all versions (see ). Then set the ```audio_offset_list``` and ```pitch_shift_list``` variables in the ```params.py``` file to the set of shift/offset values. 
-To perform cross-validation, run
+This script generates frame-level labels from ground truth boundaries and saves the features and labels in a format suitable for RF training. By default, target smearing is applied, but no data augmentation is performed. To perform augmentation using pitch-shifts and audio-offsets, first ensure that features have been extracted for all versions (see ). Then set the ```audio_offset_list``` and ```pitch_shift_list``` variables in the ```params.py``` file to the set of shift/offset values.
+</br>
+Then, to perform the cross-validation, run
 ```
 python run_cv.py
 ```
