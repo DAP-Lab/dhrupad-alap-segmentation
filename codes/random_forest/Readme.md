@@ -29,5 +29,4 @@ python run_cv.py
 * ```predict_boundaries.py```: obtain predictions on the extracted features of a test audio.
 * ```make_cv_dataset.py```: takes the features extracted using the MATLAB codes, makes the different feature subsets (as in the paper), and creates a dictionary
 for each song containing the frame-wise features and target labels. The labels are binary - 1 indicating boundary frame and 0 otherwise. Boundary labels are smeared \- all frames in a neighbourhood of the manually annotated boundary are also marked boundary. The dictionaries are stored as ```.npy``` files.
-* ```run_cv.py```: to perform cross-validation on the 20-concert dataset and testing on the separate test set. Run with 1 or 0 as a command-line parameter - 
-1 for cross-validation and 0 for testing.
+* ```run_cv.py```: to perform cross-validation on the 20-concert dataset and testing on the separate test set. Run with 1 or 0 as a command-line parameter, 1 for cross-validation and 0 for testing.
