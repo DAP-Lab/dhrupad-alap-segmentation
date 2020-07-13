@@ -13,9 +13,7 @@ import utils
 from params import *
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
-
 np.random.seed(0)
-train_flag=int(sys.argv[1])
 
 def cross_val(fold):
 	#build model
@@ -134,82 +132,31 @@ if __name__=='__main__':
 	flog.write('----------texwin_len=%d\tcontext_len=%d\t-----------\n'%(texwin_len, context_len))
 
 	scores=[]
-	#train & validate model, and report Precision, Recall & F-score
-	if train_flag:
-		for i_fold in [19]: #range(n_folds):
-			if len(scores)==0:
-				scores=np.atleast_2d(cross_val(i_fold))
-			else:
-				scores=np.vstack((scores,np.atleast_2d(cross_val(i_fold))))
+	#cross-validation
+	for i_fold in range(n_folds):
+		if len(scores)==0:
+			scores=np.atleast_2d(cross_val(i_fold))
+		else:
+			scores=np.vstack((scores,np.atleast_2d(cross_val(i_fold))))
 
-			for score in scores[-1,:]:
-				flog.write('%d\t'%score)
-			flog.write('\n')
-
-		##calculate and write Precision, Recall and F-score to log file
-		scores=np.sum(scores,0)
-		flog.write('Precision:\t')
-		for i_thresh in range(0,len(scores),3):
-			flog.write('%f\t'%(scores[i_thresh]/(scores[i_thresh]+scores[i_thresh+1])))
+		for score in scores[-1,:]:
+			flog.write('%d\t'%score)
 		flog.write('\n')
-		
-		flog.write('Recall:\t')
-		for i_thresh in range(0,len(scores),3):
-			flog.write('%f\t'%(scores[i_thresh]/scores[i_thresh+2]))
-		flog.write('\n')
-		
-		flog.write('F-score:\t')
-		for i_thresh in range(0,len(scores),3):
-			flog.write('%f\t'%(2*(scores[i_thresh]/(scores[i_thresh]+scores[i_thresh+1]))*(scores[i_thresh]/scores[i_thresh+2])/((scores[i_thresh]/(scores[i_thresh]+scores[i_thresh+1]))+(scores[i_thresh]/scores[i_thresh+2]))))
-		flog.write('\n=====================\n\n')
 
-	#test saved model on test data
-	else:
-		##Test
-		flog.write('--Test scores--\n')
+	##calculate and write Precision, Recall and F-score to log file
+	scores=np.sum(scores,0)
+	flog.write('Precision:\t')
+	for i_thresh in range(0,len(scores),3):
+		flog.write('%f\t'%(scores[i_thresh]/(scores[i_thresh]+scores[i_thresh+1])))
+	flog.write('\n')
 
-		#load weights from disk
-		test_model_path = os.path.join(model_savepath, 'weights_fold0.hdf5')
+	flog.write('Recall:\t')
+	for i_thresh in range(0,len(scores),3):
+		flog.write('%f\t'%(scores[i_thresh]/scores[i_thresh+2]))
+	flog.write('\n')
 
-		input_dim=(n_mels,2*context_len,1)
-		clf=utils.build_model(input_dim)
-		clf.load_weights(test_model_path)
-		
-		for song_id in range(songdata_test.shape[0]):
-			flog.write(songdata_test['Concert name'][song_id]+'\n')
-			filepath = os.path.join(audio_dir, songdata_test['Concert name'][song_id]+'.wav')
-			try:	boundaries=songdata_test['Boundaries'][song_id].split(',')
-			except:	boundaries=[]
-
-			for offset in audio_offset_list:
-				data_test=utils.get_test_data(audio_filepath=filepath, samp_rate=sr, gt_boundaries=boundaries, audio_offset=[offset])
-				out_probs=clf.predict(data_test['features'])[:,1]
-				out_labels=(out_probs > 0.6).astype(int)
-					
-				if len(boundaries)==0:
-					plt.plot(out_probs); plt.plot(out_labels); plt.show()
-				
-				#if boundaries available, evaluate predictions
-				else:			
-					plot_name=songdata_test['Concert name'][song_id]+'_'+str(offset)
-					scores_offset=[utils.eval_output(out_labels, out_probs, data_test['labels'], eval_tol, context_len, plot_savepath, plot_name)]		
-					if len(scores)==0:
-						scores=np.atleast_2d(scores_offset)
-					else:
-						scores=np.vstack((scores,np.atleast_2d(scores_offset)))
-					for score in scores[-1,:]:
-						flog.write('%d\t'%score)
-					flog.write('\n')					
-					
-			if len(boundaries)!=0:
-				##Calculate and write Precision, Recall and F-score to log file
-				scores=np.sum(scores,0)
-				flog.write('Precision:\t')
-				flog.write('%f\n'%(scores[0]/(scores[0]+scores[1])))
-				flog.write('Recall:\t')
-				flog.write('%f\n'%(scores[0]/scores[2]))
-				flog.write('F-score:\t')
-				flog.write('%f\n'%(2*(scores[0]/(scores[0]+scores[1]))*(scores[0]/scores[2])/((scores[0]/(scores[0]+scores[1]))+(scores[0]/scores[2]))))
-				flog.write('\n=====================\n\n')
-				
-flog.close()
+	flog.write('F-score:\t')
+	for i_thresh in range(0,len(scores),3):
+		flog.write('%f\t'%(2*(scores[i_thresh]/(scores[i_thresh]+scores[i_thresh+1]))*(scores[i_thresh]/scores[i_thresh+2])/((scores[i_thresh]/(scores[i_thresh]+scores[i_thresh+1]))+(scores[i_thresh]/scores[i_thresh+2]))))
+	flog.write('\n=====================\n\n')
+	flog.close()
